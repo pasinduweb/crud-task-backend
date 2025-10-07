@@ -8,8 +8,8 @@ export async function listItems(search?: string) {
     return prisma.item.findMany({
         where: {
             OR: [
-                { id: { contains: search, mode: 'insensitive' } },
                 { name: { contains: search, mode: 'insensitive' } },
+                { sku: { contains: search, mode: 'insensitive' } },
             ],
         },
     });
