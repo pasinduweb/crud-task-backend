@@ -18,3 +18,13 @@ export async function listItems(search?: string) {
 export async function getItemById(id: number) {
     return prisma.item.findUnique({ where: { id } });
 }
+
+export async function addItem(data: {
+    name: string;
+    sku: string;
+    quantity: number;
+    price: number;
+    description?: string;
+}) {
+    return prisma.item.create({ data });
+}

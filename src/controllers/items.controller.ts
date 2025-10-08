@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { listItems, getItemById } from '../services/items.service';
+import { listItems, getItemById, addItem } from '../services/items.service';
 
 export async function getItems(req: Request, res: Response, next: NextFunction) {
     try {
@@ -25,6 +25,28 @@ export async function getItem(req: Request, res: Response, next: NextFunction) {
         }
 
         res.json(item);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function createItem(req: Request, res: Response, next: NextFunction) {
+    try {
+        const { name, sku, quantity, price, description } = req.body;
+
+        if (!name || !sku || quantity === undefined || price === undefined) {
+            return res.status(400).json({ error: 'required fields missing' });
+        }
+
+        const newItem = await addItem({
+            name,
+            sku,
+            quantity: Number(quantity),
+            price: Number(price),
+            description,
+        });
+
+        res.status(201).json(newItem);
     } catch (err) {
         next(err);
     }
