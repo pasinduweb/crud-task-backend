@@ -14,3 +14,7 @@ export async function listItems(search?: string) {
         },
     });
 }
+
+export async function getItemById(id: number) {
+    return prisma.item.findUnique({ where: { id } });
+}
