@@ -28,3 +28,19 @@ export async function addItem(data: {
 }) {
     return prisma.item.create({ data });
 }
+
+export async function updateItemById(
+    id: number,
+    data: {
+        name?: string;
+        sku?: string;
+        quantity?: number;
+        price?: number;
+        description?: string;
+    }
+) {
+    return prisma.item.update({
+        where: { id },
+        data,
+    });
+}
