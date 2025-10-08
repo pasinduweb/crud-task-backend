@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import itemsRouter from './routes/items.routes';
 import errorMiddleware from './middlewares/error.middleware';
+import prisma from './db/prisma';
 
 dotenv.config();
 
@@ -18,6 +19,15 @@ app.use('/api/items', itemsRouter);
 
 app.use(errorMiddleware);
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+prisma
+    .$connect()
+    .then(() => {
+        console.log('DB connected');
+        app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.log('DB connection failed:', error.message);
+        process.exit(1);
+    });
