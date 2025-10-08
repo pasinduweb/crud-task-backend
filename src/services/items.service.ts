@@ -44,3 +44,7 @@ export async function updateItemById(
         data,
     });
 }
+
+export async function deleteItemById(id: number) {
+    return prisma.item.delete({ where: { id } });
+}
